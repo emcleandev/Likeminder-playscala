@@ -1,0 +1,15 @@
+@(loginFrom : Form[LoginEntry])
+@import helper._
+
+@layout("Login")(Secured.isLoggedIn(ctx)){
+    <h1>Login</h1>
+    @helper.form(action =  routes.ApplicationController.processLogin()){
+        @helper.inputText(loginFrom("username"), 'class -> "form-control")
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        @helper.inputPassword(loginFrom("password"), 'class -> "form-control")
+
+        @helper.CSRF.formField
+        <button class="btn btn-outline-success" type="submit">Login</button>
+    }
+
+}

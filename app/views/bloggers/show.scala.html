@@ -1,0 +1,16 @@
+@(blogger : Blogger)
+
+@layout("Blogger ID: " + blogger.id.toString)(Secured.isLoggedIn(ctx())){
+    <h1> Blogger id: @blogger.id</h1>
+    <p> title: @blogger.title</p>
+    <p> first name: @blogger.firstName</p>
+    <p> last name : @blogger.lastName</p>
+    <p> email : @blogger.email</p>
+    <p> username : @blogger.username</p>
+    <p> password : @blogger.password</p>
+
+    <a class="btn btn-primary" href ="@routes.BloggersController.edit(blogger.id)"> Edit </a>
+    <hr>
+    <a class= "btn btn-danger" href ="@routes.BloggersController.destroy(blogger.id)"> Delete Blogger </a>
+}
+

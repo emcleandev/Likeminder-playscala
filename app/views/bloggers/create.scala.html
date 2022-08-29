@@ -1,0 +1,17 @@
+@(blogFrom : Form[Blogger])
+@import helper._
+
+@layout("Create Blogger")(Secured.isLoggedIn(ctx())){
+    <h1> Create Blogger </h1>
+    @helper.form(action =  routes.BloggersController.save()){
+        @helper.inputText(blogFrom("title"), 'class -> "form-control")
+        @helper.inputText(blogFrom("firstName"), 'class -> "form-control")
+        @helper.inputText(blogFrom("lastName"), 'class -> "form-control")
+        @helper.inputText(blogFrom("email"), 'class -> "form-control")
+        @helper.inputText(blogFrom("username"), 'class -> "form-control")
+        @helper.inputPassword(blogFrom("password"), 'class -> "form-control")
+
+        @helper.CSRF.formField
+        <button class="btn btn-outline-success" type="submit"> Create blogger</button>
+    }
+}

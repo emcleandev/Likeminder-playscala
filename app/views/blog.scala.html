@@ -1,0 +1,119 @@
+@(blogger : Blogger)(blogg: Blog)(loggedIn : Boolean)
+
+@layout(blogg.getOwner().getUsername() + "'s Blog")(loggedIn){
+    <div class="header">
+        <h2>@blogg.getName()</h2>
+    </div>
+
+    <div class="row">
+        <div class="leftcolumn">
+            @for(post <- blogg.getPosts().reverseIterator){
+                <div class="card">
+                    <h4> @post.getTitle()</h4>
+                    <h7 class=>
+                        @if((loggedIn)&&(blogg != blogger.getBlog())) {
+                            <a href="@routes.ApplicationController.viewBlog(post.getBlog().getId())">@post.getBlog().getOwner().getUsername()'s</a>
+                            @if(!blogger.getFollowing().contains(post.getBlog())) {
+                                <span><a class="btn btn-outline-success py-0 ml-2" href="@routes.BlogController.follow(post.getBlog().getId())">Follow</a></span>
+                            }else{
+                                <span><a class="btn btn-success py-0 ml-2"><font color="white">Following</font></a></span>
+                            }
+                        }else{
+                            <a>@post.getBlog().getOwner().getUsername()'s</a>
+                            }
+                    <span class="float-right"><h5>@post.getDate().dayOfMonth().getAsString()/@post.getDate().monthOfYear().getAsString()/@post.getDate().year().getAsString()</h5></span> </h7>
+                    <img src="@routes.Assets.versioned("images/"+post.getImage())" style="max-width: :100%; max-height: 50px;" class="img-thumbnail " alt="@post.getImage()">
+                    @if(loggedIn) {
+                        <div>
+                            @if(!post.getLikedby().contains(blogger)) {
+                                <a class="btn btn-danger" href="@routes.BlogController.likePost(post.id)">
+                                    <span class="spinner-grow spinner-grow-sm"></span>
+                                    Like!
+                                </a>
+                            } else {
+                                <a class="btn btn-danger">
+                                    <span class="spinner-grow spinner-grow-sm"></span>
+                                    Liked!
+                                </a>
+                            }
+                            <a class = "btn btn-outline-danger">Likes 💖 @post.getLikes()</a>
+                            @if(blogg == blogger.getBlog()) {
+                                <a class="btn btn-outline-warning py-0  float-right" href="@routes.BlogController.deletePost(post.id)">
+                                    Delete 🗑
+                                </a>
+                            }else{
+                                @if(!post.getReportedby().contains(blogger)) {
+                                    <a class="btn btn-outline-warning py-0 float-right" href="@routes.BlogController.reportPost(post.id)">
+                                        Report
+                                    </a>
+                                } else {
+                                    <a class="btn btn-warning py-0 float-right" >
+                                        Flagged
+                                    </a>
+                                }
+                            }
+                        </div>
+                    }
+                    <h7><b>Tags | </b></h7>
+                    @if(post.isSports()){
+                        <span>sports </span>
+                        <a>sports </a>
+                    }
+                    <p class="text-left"><b>Description | </b>@post.getCaption()</p>
+                    <div>
+                        <hr>
+                        <h7><b>Comments 🍒</b></h7><br>
+                            <!-- post.getComments().size() -->
+                        @for(comment <- post.getComments()){
+
+                            <span class="float-left"><a href="@routes.ApplicationController.viewBlog(comment.getBlogger().getBlog().getId())">@comment.getBlogger().getUsername() </a></span>
+                            <h7 >&nbsp;| @comment.getComment()</h7>
+                            <span class="float-right"><p class="text-right">@comment.getDate().dayOfMonth().getAsString()/@comment.getDate().monthOfYear().getAsString()/@comment.getDate().year().getAsString()</p></span><hr>
+
+                            }
+                    </div>
+                    <form action ="@helper.CSRF(routes.BlogController.comment(post.id))" method="post">
+                        <input tpye="text" class="form-control" id="comment" name="comment" placeholder="Write Comment Here...">
+                        <button class="btn btn-outline-success pt-1 mt-1 float-right" type="submit"> Comment</button>
+                    </form>
+                </div>
+
+            }
+
+        </div>
+        <div class="rightcolumn">
+            <div class="card">
+                <h3 class="mx-auto">@blogg.getOwner().username's Bio</h3>
+                <p class="mx-auto"> @blogg.getAboutme()</p>
+            </div>
+            @if((loggedIn)&&(blogger.blog == blogg)) {
+                <div class="card">
+                    <h2 class="mx-auto">Manage Blog</h2>
+                    <h8 class="text-center py-0">Followers 👥 @blogger.blog.getFollowers().size()</h8>
+                    <hr>
+                     <a class="btn btn-outline-primary   my-sm-0" href="@routes.BlogController.editmyBlog()">Edit Blog</a>
+                    <hr>
+                    <a class="btn btn-outline-primary  my-sm-0" href="@routes.BlogController.makePost()">Make a post</a>
+                </div>
+
+            }
+            <div class="card">
+                <h6 class="text-center">Following 😋 @blogg.getOwner().getFollowing().size()</h6>
+                @for(blog <- blogg.getOwner().getFollowing()){
+                    <div> <a href="@routes.ApplicationController.viewBlog(blog.id)" class="mx-auto">@blog.getName() | by @blog.getOwner().getUsername()</a> </div>
+                }
+            </div>
+            <div class="card">
+                <h6 class="text-center">Followers 💕 @blogg.getFollowers().size()</h6>
+                @for(blogger <- blogg.getFollowers()){
+                    <div> <a href="@routes.ApplicationController.viewBlog(blogger.blog.id)" class="mx-auto">@blogger.blog.getName() | by @blogger.getUsername()</a> </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <h2>Footer</h2>
+    </div>
+
+}

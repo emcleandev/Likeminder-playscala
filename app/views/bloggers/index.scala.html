@@ -1,0 +1,23 @@
+@(bloggers : List[Blogger])
+
+@layout("Admin")(Secured.isLoggedIn(ctx())){
+    <h1> All Blog users </h1>
+    @for(blogger <- bloggers) {
+        <p>id: @blogger.id</p>
+        <p> title: @blogger.title</p>
+        <p> first Name: @blogger.firstName</p>
+        <p> last Name : @blogger.lastName</p>
+        <p> email : @blogger.email</p>
+        <p> username : @blogger.username</p>
+        <p> password : @blogger.password</p>
+        <p> Privileges : @blogger.privillages</p>
+        <a class="btn btn-outline-primary"href ="@routes.BloggersController.show(blogger.id)"> Show More </a>
+        <a class="btn btn-info"href ="@routes.AdminController.makeAdmin(blogger.id)"> Make Admin </a>
+        <a class="btn btn-success"href ="@routes.AdminController.makeMod(blogger.id)"> Make Mod </a>
+        <a class="btn btn-outline-warning"href ="@routes.AdminController.demoteMod(blogger.id)"> Demote Mod </a>
+        <a class="btn btn-danger"href ="@routes.BloggersController.destroy(blogger.id)"> Delete Blogger </a>
+        <hr>
+    }
+    <hr>
+    <a class="btn btn-success"href ="@routes.BloggersController.create()">Create Bloggers </a>
+}

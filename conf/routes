@@ -1,0 +1,58 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# An example controller showing a sample home page
+GET     /                           controllers.ApplicationController.index()
+#controllers.homecontroller.index
+# An example controller showing how to use dependency injection
+#GET     /count                      controllers.CountController.count
+# An example controller showing how to write asynchronous code
+#GET     /message                    controllers.AsyncController.message
+
+
+GET     /Registration               controllers.ApplicationController.registerBlogger()
+GET     /Login                      controllers.ApplicationController.login()
+GET     /LoginAttempt               controllers.ApplicationController.processLogin()
+GET     /Logout                     controllers.ApplicationController.logout()
+GET     /BloggerAccount             controllers.ApplicationController.viewmyAccount()
+GET     /BloggerAccount/edit        controllers.ApplicationController.editAccount()
+GET     /BloggerAccount/delete      controllers.ApplicationController.deleteAccount()
+
+GET     /Bloggers                   controllers.BloggersController.index()
+GET     /Bloggers/create            controllers.BloggersController.create()
+
+GET     /Bloggers/:id               controllers.BloggersController.show(id:Integer)
+GET     /Bloggers/edit/:id          controllers.BloggersController.edit(id:Integer)
+POST    /Bloggers/edit              controllers.BloggersController.update(id:Integer)
+POST    /Bloggers/create            controllers.BloggersController.save()
+GET     /Bloggers/delete/:id        controllers.BloggersController.destroy(id:Integer)
+
+GET     /Admin                      controllers.AdminController.index()
+GET     /Admin/makeAdmin/:id        controllers.AdminController.makeAdmin(id:Integer)
+GET     /Admin/makeMod/:id          controllers.AdminController.makeMod(id:Integer)
+GET     /Admin/demoteMod/:id        controllers.AdminController.demoteMod(id:Integer)
+GET     /Admin/deletePost/:id       controllers.AdminController.deletePost(id:Integer)
+GET     /Admin/deleteBlogger/:id    controllers.AdminController.deleteBlogger(id:Integer)
+
+GET     /MyBlog                     controllers.ApplicationController.viewmyBlog()
+GET     /MyBlog/edit                controllers.BlogController.editmyBlog()
+POST    /MyBlog/update              controllers.BlogController.updatemyBlog(blogID : Integer)
+GET     /MyBlog/MakePost            controllers.BlogController.makePost()
+POST    /MyBlog/Post                controllers.BlogController.uploadPost()
+GET    /Blog/Like/:postID           controllers.BlogController.likePost(postID : Integer)
+GET    /Post/Delete/:postID           controllers.BlogController.deletePost(postID : Integer)
+GET    /Explore/Blog/Follow/:blogid   controllers.BlogController.follow(blogid : Integer)
+GET     /Explore/Blog/:blogid            controllers.ApplicationController.viewBlog(blogid : Integer)
+GET     /Reports            controllers.ApplicationController.viewReports()
+
+GET    /Post/Report/:postID           controllers.BlogController.reportPost(postID : Integer)
+POST    /Post/Comment/:postid        controllers.BlogController.comment(postid: Integer)
+
+
+GET     /Explore                    controllers.ApplicationController.viewExplore()
+#GET     /Post/image/:id             controllers.BlogController.getImage(id:Integer)
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+

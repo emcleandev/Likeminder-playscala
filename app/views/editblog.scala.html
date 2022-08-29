@@ -1,0 +1,13 @@
+@(blogFrom : Form[Blog])(blogID: Integer)
+@import helper._
+
+@layout("Edit Blog")(true){
+    <h1> Edit Blog </h1>
+    @helper.form(action =  routes.BlogController.updatemyBlog(blogID)){
+        @helper.inputText(blogFrom("name"), '_label -> "Blog's Name", 'class -> "form-control")
+        @helper.inputText(blogFrom("aboutme"), '_label -> "About me", 'placeholder -> "What is the blog about", 'class -> "form-control")
+
+        @helper.CSRF.formField
+        <button class="btn btn-outline-success" type="submit">Confirm</button>
+    }
+}
